@@ -18,7 +18,7 @@ const auth = require('koa-basic-auth');
 const Koa = require('koa');
 const app = new Koa();
 
-// custom 401 handling
+// custom 401 handling in Koa v2.x
 app.use(async (ctx, next) => {
   try {
     await next();
@@ -26,7 +26,22 @@ app.use(async (ctx, next) => {
     if (401 == err.status) {
       ctx.status = 401;
       ctx.set('WWW-Authenticate', 'Basic');
-      ctx.body = 'cant haz that';
+      ctx.body = 'Unauthorized';
+    } else {
+      throw err;
+    }
+  }
+});
+
+// OR custom 401 handling in Koa v1.x
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    if (401 == err.status) {
+      ctx.status = 401;
+      ctx.set('WWW-Authenticate', 'Basic');
+      ctx.body = 'Unauthorized';
     } else {
       throw err;
     }
