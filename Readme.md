@@ -18,7 +18,7 @@ const auth = require('koa-basic-auth');
 const Koa = require('koa');
 const app = new Koa();
 
-// custom 401 handling in Koa v1.x
+// custom 401 handling in Koa v2.x
 app.use(async (ctx, next) => {
   try {
     await next();
